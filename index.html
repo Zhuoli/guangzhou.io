@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026广州春节回乡游全攻略 (Seattle to Guangzhou)</title>
+    <!-- 使用官方 CDN 确保在任何服务器上都能加载 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gz-red: #C84630; --gz-gold: #D4AF37; }
+        body { font-family: 'Noto Sans SC', sans-serif; background-color: #FDFBF7; color: #333; -webkit-tap-highlight-color: transparent; }
+        .font-serif-gz { font-family: 'Noto Serif SC', serif; }
+        .chart-container { position: relative; width: 100%; height: 280px; margin: 0 auto; }
+        .day-tab-active { background-color: var(--gz-red); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200, 70, 48, 0.3); }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        .timeline-line { background: linear-gradient(180deg, var(--gz-red) 0%, var(--gz-gold) 100%); width: 2px; position: absolute; left: 15px; top: 24px; bottom: 0; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide { animation: slideIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <span class="font-serif-gz text-xl font-black text-[#C84630]">🌸 2026 羊城回乡指南</span>
+            <div class="hidden md:flex space-x-6 text-sm font-bold text-gray-500">
+                <a href="#planning" class="hover:text-[#C84630]">规划</a>
+                <a href="#itinerary" class="hover:text-[#C84630]">行程</a>
+                <a href="#food" class="hover:text-[#C84630]">美食</a>
+            </div>
+            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-400">SEA ➔ CAN</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white py-12 px-4 border-b">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-block bg-[#C84630] text-white text-[10px] px-2 py-0.5 rounded-full mb-4">FOR SEATTLE FAMILY</div>
+            <h1 class="font-serif-gz text-4xl md:text-5xl font-black mb-4 leading-tight text-gray-900">
+                欢迎回到广州过年
+            </h1>
+            <p class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base">
+                这份指南是为您和太太、8岁的女儿以及3岁的儿子量身打造。
+                <br class="hidden md:block">涵盖了从西雅图归来的时差调节、地道西关美食、以及马年春节最值得去的花市与非遗点。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- 1. Data Dashboards -->
+        <section id="planning" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                <h3 class="font-serif-gz font-bold text-lg mb-6 flex items-center">
+                    <span class="mr-2">📊</span> 每日体力预测 (Energy Cost)
+                </h3>
+                <div class="chart-container">
+                    <canvas id="energyChart"></canvas>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-4 italic text-center">Day 3 长隆野生动物园为体力峰值，Day 4 建议安排下午茶休息。</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                <h3 class="font-serif-gz font-bold text-lg mb-6 flex items-center">
+                    <span class="mr-2">🏮</span> 2026 春节花市避峰建议
+                </h3>
+                <div class="chart-container">
+                    <canvas id="marketChart"></canvas>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-4 italic text-center">西湖路最经典但人流量极大；带推车建议选天河体育中心或越秀公园。</p>
+            </div>
+        </section>
+
+        <!-- 2. Interactive Itinerary -->
+        <section id="itinerary">
+            <div class="mb-8">
+                <h2 class="font-serif-gz text-3xl font-black border-l-8 border-[#C84630] pl-4">8日深度行程路线</h2>
+                <p class="text-gray-400 mt-2 text-sm italic">点击下方日期查看每日为 3岁/8岁 孩子优化的细节</p>
+            </div>
+
+            <div class="flex space-x-2 overflow-x-auto pb-4 no-scrollbar">
+                <button onclick="updateDay(1)" id="btn-1" class="day-tab day-tab-active flex-shrink-0 px-5 py-2 rounded-xl text-sm font-bold transition-all">Day 1-2：西关</button>
+                <button onclick="updateDay(3)" id="btn-3" class="day-tab bg-white flex-shrink-0 px-5 py-2 rounded-xl text-sm font-bold border border-gray-100 transition-all">Day 3：长隆</button>
+                <button onclick="updateDay(4)" id="btn-4" class="day-tab bg-white flex-shrink-0 px-5 py-2 rounded-xl text-sm font-bold border border-gray-100 transition-all">Day 4-5：非遗</button>
+                <button onclick="updateDay(6)" id="btn-6" class="day-tab bg-white flex-shrink-0 px-5 py-2 rounded-xl text-sm font-bold border border-gray-100 transition-all">Day 6-7：云端</button>
+                <button onclick="updateDay(8)" id="btn-8" class="day-tab bg-white flex-shrink-0 px-5 py-2 rounded-xl text-sm font-bold border border-gray-100 transition-all">Day 8：归途</button>
+            </div>
+
+            <div id="itinerary-panel" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-50 min-h-[450px]">
+                <!-- Dynamic Content -->
+            </div>
+        </section>
+
+        <!-- 3. Food Guide (Static but Grid Layout) -->
+        <section id="food" class="space-y-8">
+            <h2 class="font-serif-gz text-3xl font-black border-l-8 border-[#D4AF37] pl-4">太太的私藏食单</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#FFF9F2] p-6 rounded-2xl border border-[#FBE3CC]">
+                    <span class="text-3xl block mb-4">🍵</span>
+                    <h4 class="font-bold text-gray-900 mb-2">顶级早茶：玉堂春暖</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">在沙面白天鹅宾馆。8岁女儿会爱上黑松露干蒸，3岁小儿子适合吃萨其马。落地第一天早上排位最佳，因为时差会让你们起得非常早。</p>
+                </div>
+                <div class="bg-[#FFF2F2] p-6 rounded-2xl border border-[#FBCACA]">
+                    <span class="text-3xl block mb-4">🍗</span>
+                    <h4 class="font-bold text-gray-900 mb-2">团年饭：向群饭店</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">老西关的烟火气。点一份葱油淋鸡，这是老广州过年“无鸡不成宴”的精髓。适合一家四口，菜式温和不辣。</p>
+                </div>
+                <div class="bg-[#F2F9FF] p-6 rounded-2xl border border-[#CADDFB]">
+                    <span class="text-3xl block mb-4">🥣</span>
+                    <h4 class="font-bold text-gray-900 mb-2">街头甜品：南信双皮奶</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">在第十甫路。给孩子们点红豆双皮奶，这是最能代表太太童年记忆的甜味。店面稍挤，建议打包在路边吃。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Quick Checklist -->
+        <section class="bg-[#333] text-white p-8 rounded-3xl shadow-2xl">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+                <div class="md:w-1/2">
+                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">西雅图回国清单 (Husband's Task)</h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 提前一个月预约“白天鹅宾馆”的团年饭位</li>
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 微信搜索“陈家祠”和“广东省博物馆”抢票</li>
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 准备西雅图特色咖啡豆或创始店杯子送亲友</li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2 border-l border-gray-600 md:pl-8">
+                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">带娃 Survival Tips</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        广州地铁春节高峰期极挤，3岁儿子务必带防丢绳或背带。广州二月气温在 12°C - 20°C 之间，建议洋葱穿衣法，随身备好驱蚊液（长隆动物园蚊虫较多）。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t text-center text-gray-400 text-xs">
+        <p>Created with Love for a Homecoming Journey 2026.</p>
+        <p class="mt-2">祝您和家人在花城度过一个难忘的马年春节！</p>
+    </footer>
+
+    <script>
+        // --- ITINERARY CONTENT ---
+        const dayContent = {
+            1: {
+                title: "Day 1-2：时差、沙面与老西关",
+                intro: "适应时差是首要任务。在太太长大的地方慢慢走。",
+                steps: [
+                    { time: "D1 晨", detail: "抵达入住沙面。利用时差早起的优势，去吃【第一场】早茶。" },
+                    { time: "D2 昼", detail: "【西湖路花市】。8岁女儿买风车，3岁儿子买金桔。感受老广仪式感。" },
+                    { time: "D2 晚", detail: "太太娘家团年饭。听长辈讲讲太太小时候在西关骑楼下的往事。" }
+                ],
+                tip: "花市非常挤，建议带个轻便推车（如 Yoyo），或者直接抱在肩膀上。"
+            },
+            3: {
+                title: "Day 3：长隆野生动物王国",
+                intro: "给两个孩子的重磅奖励，全家总动员。",
+                steps: [
+                    { time: "上午", detail: "乘坐小火车进入自驾区。3岁儿子可以近距离看斑马和长颈鹿。" },
+                    { time: "下午", event: "看熊猫三胞胎。8岁女儿可以在互动区学习动物知识。" },
+                    { time: "晚上", detail: "【长隆大马戏】。顶级灯光舞美，全家人绝对不会睡着。" }
+                ],
+                tip: "马戏票务必买 VIP 位，视野对孩子很重要，且能避开排队。"
+            },
+            4: {
+                title: "Day 4-5：非遗体验与祈福",
+                intro: "让孩子亲手触摸历史，给马年讨个好彩头。",
+                steps: [
+                    { time: "D4 昼", detail: "【永庆坊】非遗课堂。带女儿体验“广彩”瓷盘绘画，带回西雅图做留念。" },
+                    { time: "D5 晨", detail: "【陈家祠】。8岁孩子可以玩“屋顶雕刻寻宝”，找各种小怪兽。" },
+                    { time: "D5 下", detail: "【东山口】。看老洋房咖啡馆，太太可以拍复古港风大片。" }
+                ],
+                tip: "陈家祠建议请一个人工讲解，讲给大女儿听，她会觉得非常神奇。"
+            },
+            6: {
+                title: "Day 6-7：云端地标与省博",
+                intro: "感受现代广州的震撼力。",
+                steps: [
+                    { time: "D6 暮", detail: "【海心桥】散步。背景是亮灯的广州塔。适合拍全家福。" },
+                    { time: "D7 全天", detail: "【正佳广场】。如果下雨或太热，这里有室内的海洋馆和雨林，3岁孩子最爱。" }
+                ],
+                tip: "海心桥需要提前在微信预约，每晚凌晨 0 点放票。"
+            },
+            8: {
+                title: "Day 8：最后的滋味与归途",
+                intro: "带着满满的回忆和胃容量，返回西雅图。",
+                steps: [
+                    { time: "早晨", detail: "最后吃一次肠粉和艇仔粥。买一点鸡仔饼做伴手礼。" },
+                    { time: "下午", detail: "白云机场。利用国际商务值机柜台（如果符合），机场有儿童乐园。" }
+                ],
+                tip: "飞行时间长，记得在机场买点水果给孩子在飞机上吃。"
+            }
+        };
+
+        function updateDay(idx) {
+            const data = dayContent[idx];
+            const panel = document.getElementById('itinerary-panel');
+            
+            // UI Toggle
+            document.querySelectorAll('.day-tab').forEach(b => {
+                b.classList.remove('day-tab-active');
+                b.classList.add('bg-white', 'border-gray-100');
+            });
+            document.getElementById(`btn-${idx}`).classList.add('day-tab-active');
+            document.getElementById(`btn-${idx}`).classList.remove('bg-white', 'border-gray-100');
+
+            // Content Update
+            let html = `
+                <div class="animate-slide">
+                    <h3 class="font-serif-gz text-2xl font-bold text-[#C84630] mb-2">${data.title}</h3>
+                    <p class="text-sm text-gray-400 mb-8">${data.intro}</p>
+                    <div class="relative">
+                        <div class="timeline-line"></div>
+                        <div class="space-y-10">
+            `;
+
+            data.steps.forEach(s => {
+                html += `
+                    <div class="relative pl-10">
+                        <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-white border-2 border-[#C84630] flex items-center justify-center">
+                            <div class="w-2 h-2 rounded-full bg-[#D4AF37]"></div>
+                        </div>
+                        <span class="text-[10px] font-bold text-[#C84630] uppercase tracking-widest">${s.time}</span>
+                        <p class="text-gray-800 font-bold mt-1">${s.detail}</p>
+                    </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+                    <div class="mt-10 bg-gray-50 p-4 rounded-xl text-xs text-gray-500 border-l-4 border-[#D4AF37]">
+                        💡 爸爸注意：${data.tip}
+                    </div>
+                </div>
+            `;
+            panel.innerHTML = html;
+        }
+
+        // --- CHARTS ---
+        window.onload = () => {
+            updateDay(1);
+
+            new Chart(document.getElementById('energyChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Day1', 'Day2', 'Day3', 'Day4', 'Day5', 'Day6', 'Day7', 'Day8'],
+                    datasets: [{
+                        data: [45, 80, 100, 50, 65, 85, 75, 30],
+                        borderColor: '#C84630',
+                        backgroundColor: 'rgba(200, 70, 48, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { display: false }, x: { grid: { display: false } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('marketChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['传统氛围', '带娃便利', '摄影出片', '交通友好', '周边美食'],
+                    datasets: [
+                        {
+                            label: '西湖路花市',
+                            data: [100, 30, 90, 60, 95],
+                            borderColor: '#C84630',
+                            backgroundColor: 'rgba(200, 70, 48, 0.2)'
+                        },
+                        {
+                            label: '天河体育中心',
+                            data: [60, 90, 60, 100, 70],
+                            borderColor: '#D4AF37',
+                            backgroundColor: 'rgba(212, 175, 55, 0.2)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, fontSize: 10 } } },
+                    scales: { r: { suggestedMin: 0, ticks: { display: false } } }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
