@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026广州春节回乡游全攻略 (Seattle to Guangzhou)</title>
-    <!-- 使用官方 CDN 确保在任何服务器上都能加载 -->
+    <title>2026广州春节回乡游全攻略 (Flight & Homecoming Edition)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gz-red: #C84630; --gz-gold: #D4AF37; }
+        :root { --gz-red: #C84630; --gz-gold: #D4AF37; --gz-blue: #2A5B8C; }
         body { font-family: 'Noto Sans SC', sans-serif; background-color: #FDFBF7; color: #333; -webkit-tap-highlight-color: transparent; }
         .font-serif-gz { font-family: 'Noto Serif SC', serif; }
         .chart-container { position: relative; width: 100%; height: 280px; margin: 0 auto; }
         .day-tab-active { background-color: var(--gz-red); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200, 70, 48, 0.3); }
-        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
         .timeline-line { background: linear-gradient(180deg, var(--gz-red) 0%, var(--gz-gold) 100%); width: 2px; position: absolute; left: 15px; top: 24px; bottom: 0; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide { animation: slideIn 0.4s ease-out forwards; }
+        .route-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .route-card:hover { transform: translateY(-5px); border-color: var(--gz-red); }
+        .route-active { border: 2px solid var(--gz-red) !important; background: white !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade { animation: fadeIn 0.4s ease-in; }
     </style>
 </head>
 <body class="antialiased">
@@ -27,31 +29,103 @@
         <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
             <span class="font-serif-gz text-xl font-black text-[#C84630]">🌸 2026 羊城回乡指南</span>
             <div class="hidden md:flex space-x-6 text-sm font-bold text-gray-500">
+                <a href="#flights" class="hover:text-[#C84630]">航班</a>
                 <a href="#planning" class="hover:text-[#C84630]">规划</a>
                 <a href="#itinerary" class="hover:text-[#C84630]">行程</a>
                 <a href="#food" class="hover:text-[#C84630]">美食</a>
             </div>
-            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-400">SEA ➔ CAN</span>
+            <span class="text-[10px] md:text-xs bg-gray-100 px-2 py-1 rounded text-gray-400">SEA ➔ CAN | FAMILY OF 4</span>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="bg-white py-12 px-4 border-b">
         <div class="max-w-5xl mx-auto text-center">
-            <div class="inline-block bg-[#C84630] text-white text-[10px] px-2 py-0.5 rounded-full mb-4">FOR SEATTLE FAMILY</div>
+            <div class="inline-block bg-[#C84630] text-white text-[10px] px-2 py-0.5 rounded-full mb-4">SEARCHED: DIRECT FLIGHTS ONLY</div>
             <h1 class="font-serif-gz text-4xl md:text-5xl font-black mb-4 leading-tight text-gray-900">
-                欢迎回到广州过年
+                2026 广州归航指南
             </h1>
             <p class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base">
-                这份指南是为您和太太、8岁的女儿以及3岁的儿子量身打造。
-                <br class="hidden md:block">涵盖了从西雅图归来的时差调节、地道西关美食、以及马年春节最值得去的花市与非遗点。
+                已为您锁定 2026 春节期间从西雅图/温哥华出发的直飞选项。
+                <br class="hidden md:block">考虑到 8 岁和 3 岁孩子的体力，我们优化了所有中转流程，确保回乡之路顺畅无阻。
             </p>
         </div>
     </header>
 
     <main class="max-w-5xl mx-auto px-4 py-12 space-y-20">
 
-        <!-- 1. Data Dashboards -->
+        <!-- NEW: Flight Strategy Section -->
+        <section id="flights" class="space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-4">
+                <div>
+                    <h2 class="font-serif-gz text-3xl font-black border-l-8 border-[#2A5B8C] pl-4">直飞方案分析</h2>
+                    <p class="text-gray-500 mt-2">避免转机劳顿，针对“四口之家”的三个最优解</p>
+                </div>
+                <div class="text-xs text-gray-400 italic font-medium">数据基于 2026 航季预测</div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Flight Options -->
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div id="route-hkg" onclick="selectRoute('hkg')" class="route-card bg-gray-50 border-2 border-transparent p-6 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-xs font-bold text-[#2A5B8C] bg-blue-50 px-2 py-1 rounded">推荐：家门口出发</span>
+                                <span class="text-xl">✈️</span>
+                            </div>
+                            <h4 class="font-black text-lg">西雅图 ➔ 香港</h4>
+                            <p class="text-xs text-gray-500 mt-1">CX857 (Cathay Pacific)</p>
+                            <p class="text-sm mt-4 font-medium">直飞 14.5 小时。无需开车去温哥华，香港通关后转高铁 1 小时直达广州。</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-200 text-[10px] font-bold text-gray-400">便利度：★★★★★</div>
+                    </div>
+
+                    <div id="route-can" onclick="selectRoute('can')" class="route-card bg-gray-50 border-2 border-transparent p-6 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-xs font-bold text-green-700 bg-green-50 px-2 py-1 rounded">推荐：终点直达</span>
+                                <span class="text-xl">🇨🇳</span>
+                            </div>
+                            <h4 class="font-black text-lg">温哥华 ➔ 广州</h4>
+                            <p class="text-xs text-gray-500 mt-1">CZ330 (China Southern)</p>
+                            <p class="text-sm mt-4 font-medium">直飞 13 小时。虽需驱车 3 小时去 YVR，但落地即是广州。最省心的地面流程。</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-200 text-[10px] font-bold text-gray-400">省心度：★★★★★</div>
+                    </div>
+
+                    <div id="route-szx" onclick="selectRoute('szx')" class="route-card bg-gray-50 border-2 border-transparent p-6 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded">推荐：替代方案</span>
+                                <span class="text-xl">🚄</span>
+                            </div>
+                            <h4 class="font-black text-lg">温哥华 ➔ 深圳</h4>
+                            <p class="text-xs text-gray-500 mt-1">HU7960 (Hainan Airlines)</p>
+                            <p class="text-sm mt-4 font-medium">直飞 13.5 小时。深圳宝安机场离广州市区仅 40 分钟车程，商务车直达。</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-200 text-[10px] font-bold text-gray-400">性价比：★★★★☆</div>
+                    </div>
+
+                    <div class="bg-[#FFF9F2] p-6 rounded-2xl border border-[#FBE3CC] flex flex-col justify-center items-center text-center">
+                        <p class="text-xs font-bold text-[#8A701F] mb-2 uppercase tracking-widest">爸爸必读</p>
+                        <p class="text-sm font-medium text-gray-700">“全家 4 口建议提前预订跨境商务 7 座车（如中港车），从香港或深圳机场直达广州家门口，避免带孩子搬运行李挤地铁。”</p>
+                    </div>
+                </div>
+
+                <!-- Radar Chart -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sm text-center mb-4">航线综合评估 (Family Suitability)</h3>
+                    <div class="chart-container">
+                        <canvas id="flightRadar"></canvas>
+                    </div>
+                    <div id="route-details" class="mt-4 p-4 bg-gray-50 rounded-xl text-xs text-gray-500 min-h-[60px] flex items-center justify-center text-center">
+                        点击左侧卡片查看航线详细分析
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planning & Data Dashboards -->
         <section id="planning" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                 <h3 class="font-serif-gz font-bold text-lg mb-6 flex items-center">
@@ -74,7 +148,7 @@
             </div>
         </section>
 
-        <!-- 2. Interactive Itinerary -->
+        <!-- 8-Day Interactive Itinerary -->
         <section id="itinerary">
             <div class="mb-8">
                 <h2 class="font-serif-gz text-3xl font-black border-l-8 border-[#C84630] pl-4">8日深度行程路线</h2>
@@ -94,43 +168,43 @@
             </div>
         </section>
 
-        <!-- 3. Food Guide (Static but Grid Layout) -->
+        <!-- Food Guide -->
         <section id="food" class="space-y-8">
             <h2 class="font-serif-gz text-3xl font-black border-l-8 border-[#D4AF37] pl-4">太太的私藏食单</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-[#FFF9F2] p-6 rounded-2xl border border-[#FBE3CC]">
                     <span class="text-3xl block mb-4">🍵</span>
                     <h4 class="font-bold text-gray-900 mb-2">顶级早茶：玉堂春暖</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">在沙面白天鹅宾馆。8岁女儿会爱上黑松露干蒸，3岁小儿子适合吃萨其马。落地第一天早上排位最佳，因为时差会让你们起得非常早。</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">在沙面白天鹅宾馆。8岁女儿会爱上黑松露干蒸，3岁小儿子适合吃萨其马。落地第一天早上排位最佳。</p>
                 </div>
                 <div class="bg-[#FFF2F2] p-6 rounded-2xl border border-[#FBCACA]">
                     <span class="text-3xl block mb-4">🍗</span>
                     <h4 class="font-bold text-gray-900 mb-2">团年饭：向群饭店</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">老西关的烟火气。点一份葱油淋鸡，这是老广州过年“无鸡不成宴”的精髓。适合一家四口，菜式温和不辣。</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">老西关的烟火气。点一份葱油淋鸡，这是老广州过年“无鸡不成宴”的精髓。</p>
                 </div>
                 <div class="bg-[#F2F9FF] p-6 rounded-2xl border border-[#CADDFB]">
                     <span class="text-3xl block mb-4">🥣</span>
                     <h4 class="font-bold text-gray-900 mb-2">街头甜品：南信双皮奶</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">在第十甫路。给孩子们点红豆双皮奶，这是最能代表太太童年记忆的甜味。店面稍挤，建议打包在路边吃。</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">给孩子们点红豆双皮奶，这是最能代表太太童年记忆的甜味。</p>
                 </div>
             </div>
         </section>
 
-        <!-- 4. Quick Checklist -->
+        <!-- Quick Checklist -->
         <section class="bg-[#333] text-white p-8 rounded-3xl shadow-2xl">
             <div class="flex flex-col md:flex-row justify-between items-start gap-8">
                 <div class="md:w-1/2">
-                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">西雅图回国清单 (Husband's Task)</h3>
+                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">爸爸的回乡清单</h3>
                     <ul class="space-y-3 text-sm text-gray-300">
-                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 提前一个月预约“白天鹅宾馆”的团年饭位</li>
-                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 微信搜索“陈家祠”和“广东省博物馆”抢票</li>
-                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 准备西雅图特色咖啡豆或创始店杯子送亲友</li>
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 预订 YVR 附近酒店（如果是清晨航班）</li>
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 微信搜索“中港直通车”预订 7 座商务车</li>
+                        <li class="flex items-center"><span class="mr-2 text-[#D4AF37]">✔</span> 确保太太的手机漫游或国内 SIM 卡已激活</li>
                     </ul>
                 </div>
                 <div class="md:w-1/2 border-l border-gray-600 md:pl-8">
-                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">带娃 Survival Tips</h3>
+                    <h3 class="font-serif-gz text-2xl font-bold mb-4 text-[#D4AF37]">跨境物流建议</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">
-                        广州地铁春节高峰期极挤，3岁儿子务必带防丢绳或背带。广州二月气温在 12°C - 20°C 之间，建议洋葱穿衣法，随身备好驱蚊液（长隆动物园蚊虫较多）。
+                        如果是飞香港，推荐从机场直接坐“海天联运”快船去广州南沙或莲花山码头。优点：在香港机场不用入境即可转船，行李直挂，通关速度极快，对带小孩非常友好。
                     </p>
                 </div>
             </div>
@@ -139,68 +213,79 @@
     </main>
 
     <footer class="py-12 border-t text-center text-gray-400 text-xs">
-        <p>Created with Love for a Homecoming Journey 2026.</p>
-        <p class="mt-2">祝您和家人在花城度过一个难忘的马年春节！</p>
+        <p>Created for the 2026 Seattle to Guangzhou Family Reunion.</p>
+        <p class="mt-2">祝您一家四口旅途愉快，马年吉祥！</p>
     </footer>
 
     <script>
+        // --- FLIGHT DATA ---
+        const routeData = {
+            hkg: "【西雅图直飞香港】优点是家门口出发。落地后建议在香港机场坐『快船』或『跨境商务车』。快船 1.5 小时到广州莲花山/南沙码头，行李直挂，最省力。",
+            can: "【温哥华直飞广州】最纯粹的直飞。虽然要开车去 YVR，但落地就是家。白云机场到市区打车 45 分钟，是 3 岁孩子最不容易崩溃的选择。",
+            szx: "【温哥华直飞深圳】深圳机场就在广深交界，离广州南边（番禺等）非常近。建议预订包车，30-50 分钟即可到达广州市区。"
+        };
+
+        const flightRadarScores = {
+            hkg: [100, 70, 80, 60, 90], // SEA, Distance, HKG Process, Cost, Kid-Friendly
+            can: [40, 100, 100, 70, 95], // YVR drive, Distance, CAN Process, Cost, Kid-Friendly
+            szx: [40, 90, 85, 95, 80]
+        };
+
+        function selectRoute(id) {
+            document.querySelectorAll('.route-card').forEach(c => c.classList.remove('route-active'));
+            document.getElementById(`route-${id}`).classList.add('route-active');
+            document.getElementById('route-details').innerText = routeData[id];
+            updateRadar(id);
+        }
+
         // --- ITINERARY CONTENT ---
         const dayContent = {
             1: {
                 title: "Day 1-2：时差、沙面与老西关",
-                intro: "适应时差是首要任务。在太太长大的地方慢慢走。",
                 steps: [
-                    { time: "D1 晨", detail: "抵达入住沙面。利用时差早起的优势，去吃【第一场】早茶。" },
-                    { time: "D2 昼", detail: "【西湖路花市】。8岁女儿买风车，3岁儿子买金桔。感受老广仪式感。" },
-                    { time: "D2 晚", detail: "太太娘家团年饭。听长辈讲讲太太小时候在西关骑楼下的往事。" }
+                    { time: "D1 晨", detail: "抵达入住沙面。利用时差早起优势，去【玉堂春暖】吃第一场早茶。" },
+                    { time: "D2 昼", detail: "【西湖路花市】。8岁女儿买风车。感受老广最核心的春节仪式感。" },
+                    { time: "D2 晚", detail: "太太娘家团年饭。这是此行重头戏，感受最纯正的广府亲情。" }
                 ],
-                tip: "花市非常挤，建议带个轻便推车（如 Yoyo），或者直接抱在肩膀上。"
+                tip: "花市非常挤，建议带个推车（如 Yoyo），或者直接抱在肩膀上。"
             },
             3: {
                 title: "Day 3：长隆野生动物王国",
-                intro: "给两个孩子的重磅奖励，全家总动员。",
                 steps: [
-                    { time: "上午", detail: "乘坐小火车进入自驾区。3岁儿子可以近距离看斑马和长颈鹿。" },
-                    { time: "下午", event: "看熊猫三胞胎。8岁女儿可以在互动区学习动物知识。" },
+                    { time: "上午", detail: "小火车进入自驾区。3岁儿子可以近距离看斑马和长颈鹿。" },
                     { time: "晚上", detail: "【长隆大马戏】。顶级灯光舞美，全家人绝对不会睡着。" }
                 ],
-                tip: "马戏票务必买 VIP 位，视野对孩子很重要，且能避开排队。"
+                tip: "马戏票务必买 VIP 位，视野对孩子很重要。"
             },
             4: {
                 title: "Day 4-5：非遗体验与祈福",
-                intro: "让孩子亲手触摸历史，给马年讨个好彩头。",
                 steps: [
-                    { time: "D4 昼", detail: "【永庆坊】非遗课堂。带女儿体验“广彩”瓷盘绘画，带回西雅图做留念。" },
-                    { time: "D5 晨", detail: "【陈家祠】。8岁孩子可以玩“屋顶雕刻寻宝”，找各种小怪兽。" },
-                    { time: "D5 下", detail: "【东山口】。看老洋房咖啡馆，太太可以拍复古港风大片。" }
+                    { time: "D4 昼", detail: "【永庆坊】非遗课堂。带女儿体验“广彩”瓷盘绘画。" },
+                    { time: "D5 晨", detail: "【陈家祠】。8岁孩子可以玩“屋顶雕刻寻宝”。" }
                 ],
-                tip: "陈家祠建议请一个人工讲解，讲给大女儿听，她会觉得非常神奇。"
+                tip: "陈家祠建议请一个人工讲解，讲给大女儿听。"
             },
             6: {
                 title: "Day 6-7：云端地标与省博",
-                intro: "感受现代广州的震撼力。",
                 steps: [
                     { time: "D6 暮", detail: "【海心桥】散步。背景是亮灯的广州塔。适合拍全家福。" },
-                    { time: "D7 全天", detail: "【正佳广场】。如果下雨或太热，这里有室内的海洋馆和雨林，3岁孩子最爱。" }
+                    { time: "D7 全天", detail: "【正佳广场】。室内的海洋馆和雨林，3岁孩子最爱。" }
                 ],
-                tip: "海心桥需要提前在微信预约，每晚凌晨 0 点放票。"
+                tip: "海心桥需要提前在微信预约。"
             },
             8: {
                 title: "Day 8：最后的滋味与归途",
-                intro: "带着满满的回忆和胃容量，返回西雅图。",
                 steps: [
-                    { time: "早晨", detail: "最后吃一次肠粉和艇仔粥。买一点鸡仔饼做伴手礼。" },
-                    { time: "下午", detail: "白云机场。利用国际商务值机柜台（如果符合），机场有儿童乐园。" }
+                    { time: "早晨", detail: "最后一次早茶。买一点鸡仔饼做伴手礼带回西雅图。" },
+                    { time: "下午", detail: "前往白云机场。利用国际值机柜台，机场有儿童乐园。" }
                 ],
-                tip: "飞行时间长，记得在机场买点水果给孩子在飞机上吃。"
+                tip: "飞行时间长，记得在机场买点水果给孩子吃。"
             }
         };
 
         function updateDay(idx) {
             const data = dayContent[idx];
             const panel = document.getElementById('itinerary-panel');
-            
-            // UI Toggle
             document.querySelectorAll('.day-tab').forEach(b => {
                 b.classList.remove('day-tab-active');
                 b.classList.add('bg-white', 'border-gray-100');
@@ -208,16 +293,13 @@
             document.getElementById(`btn-${idx}`).classList.add('day-tab-active');
             document.getElementById(`btn-${idx}`).classList.remove('bg-white', 'border-gray-100');
 
-            // Content Update
             let html = `
-                <div class="animate-slide">
+                <div class="animate-fade">
                     <h3 class="font-serif-gz text-2xl font-bold text-[#C84630] mb-2">${data.title}</h3>
-                    <p class="text-sm text-gray-400 mb-8">${data.intro}</p>
-                    <div class="relative">
+                    <div class="relative mt-8">
                         <div class="timeline-line"></div>
                         <div class="space-y-10">
             `;
-
             data.steps.forEach(s => {
                 html += `
                     <div class="relative pl-10">
@@ -229,12 +311,11 @@
                     </div>
                 `;
             });
-
             html += `
                         </div>
                     </div>
                     <div class="mt-10 bg-gray-50 p-4 rounded-xl text-xs text-gray-500 border-l-4 border-[#D4AF37]">
-                        💡 爸爸注意：${data.tip}
+                        💡 建议：${data.tip}
                     </div>
                 </div>
             `;
@@ -242,13 +323,49 @@
         }
 
         // --- CHARTS ---
+        let radarChart;
+        function updateRadar(routeId) {
+            const scores = flightRadarScores[routeId];
+            if (radarChart) {
+                radarChart.data.datasets[0].data = scores;
+                radarChart.data.datasets[0].label = `评分：${routeId.toUpperCase()}`;
+                radarChart.update();
+            }
+        }
+
         window.onload = () => {
             updateDay(1);
 
+            // Flight Radar
+            const ctxRadar = document.getElementById('flightRadar').getContext('2d');
+            radarChart = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['离家近(SEA)', '落地顺畅度', '转乘便利性', '价格竞争力', '带娃友好度'],
+                    datasets: [{
+                        label: '请选择航线',
+                        data: [50, 50, 50, 50, 50],
+                        borderColor: '#C84630',
+                        backgroundColor: 'rgba(200, 70, 48, 0.2)',
+                        pointBackgroundColor: '#C84630'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } }
+                }
+            });
+
+            // Initial route selection
+            selectRoute('hkg');
+
+            // Energy Chart
             new Chart(document.getElementById('energyChart'), {
                 type: 'line',
                 data: {
-                    labels: ['Day1', 'Day2', 'Day3', 'Day4', 'Day5', 'Day6', 'Day7', 'Day8'],
+                    labels: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8'],
                     datasets: [{
                         data: [45, 80, 100, 50, 65, 85, 75, 30],
                         borderColor: '#C84630',
@@ -268,22 +385,23 @@
                 }
             });
 
+            // Market Comparison
             new Chart(document.getElementById('marketChart'), {
                 type: 'radar',
                 data: {
-                    labels: ['传统氛围', '带娃便利', '摄影出片', '交通友好', '周边美食'],
+                    labels: ['文化气息', '推车便利', '摄影出片', '交通友好', '吃喝配套'],
                     datasets: [
                         {
                             label: '西湖路花市',
                             data: [100, 30, 90, 60, 95],
                             borderColor: '#C84630',
-                            backgroundColor: 'rgba(200, 70, 48, 0.2)'
+                            backgroundColor: 'rgba(200, 70, 48, 0.1)'
                         },
                         {
-                            label: '天河体育中心',
+                            label: '天河花市',
                             data: [60, 90, 60, 100, 70],
                             borderColor: '#D4AF37',
-                            backgroundColor: 'rgba(212, 175, 55, 0.2)'
+                            backgroundColor: 'rgba(212, 175, 55, 0.1)'
                         }
                     ]
                 },
